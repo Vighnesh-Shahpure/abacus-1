@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BrainSpark Abacus Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ===== GOOGLE FONTS ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #2563eb, #f97316);
+            border-radius: 10px;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        /* ===== GLASSMORPHISM ===== */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== GRADIENT TEXT ===== */
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #f97316 50%, #eab308 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #f97316 100%);
+        }
+
+        ::selection {
+            background: rgba(37, 99, 235, 0.2);
+            color: #0f172a;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(37, 99, 235, 0.12);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+            backdrop-filter: blur(8px);
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #334155;
+        }
+        .dark .hero-badge {
+            background: rgba(15, 23, 42, 0.75);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #e2e8f0;
+        }
+
+        .step-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+            border: 1px solid rgba(37, 99, 235, 0.08);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 12px 40px rgba(15, 23, 42, 0.04);
+            transition: all 0.3s ease;
+        }
+        .step-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(37, 99, 235, 0.12);
+        }
+        .dark .step-card {
+            background: linear-gradient(135deg, #1e293b 0%, #111827 100%);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        .step-index {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, #2563eb 0%, #f97316 100%);
+            margin-bottom: 14px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.45);
+        }
+        .btn-orange {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-orange:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.45);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        .dark .btn-secondary {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== STAT COUNTER ===== */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== HERO BACKGROUND ===== */
+        .hero-gradient {
+            background: radial-gradient(ellipse at 20% 50%, rgba(37, 99, 235, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(249, 115, 22, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(234, 179, 8, 0.05) 0%, transparent 40%),
+                #ffffff;
+        }
+        .dark .hero-gradient {
+            background: radial-gradient(ellipse at 20% 50%, rgba(37, 99, 235, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(234, 179, 8, 0.06) 0%, transparent 40%),
+                #0f172a;
+        }
+
+        /* ===== FLOATING NUMBERS ===== */
+        .number-float {
+            animation: float-number 12s ease-in-out infinite;
+        }
+        @keyframes float-number {
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translate(30px, -40px) rotate(10deg);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(-20px, -80px) rotate(-5deg);
+                opacity: 0.8;
+            }
+            75% {
+                transform: translate(40px, -50px) rotate(15deg);
+                opacity: 0.5;
+            }
+        }
+
+        /* ===== COURSE CARD ===== */
+        .course-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2563eb, #f97316, #eab308);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        .course-card:hover::before {
+            transform: scaleX(1);
+        }
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            border-color: rgba(37, 99, 235, 0.15);
+        }
+        .dark .course-card {
+            background: #1e293b;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== FEATURE CARD ===== */
+        .feature-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(37, 99, 235, 0.08);
+            border-color: rgba(37, 99, 235, 0.1);
+        }
+        .dark .feature-card {
+            background: #1e293b;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(249, 115, 22, 0.08));
+        }
+
+        /* ===== TESTIMONIAL ===== */
+        .testimonial-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.06);
+        }
+        .dark .testimonial-card {
+            background: #1e293b;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .navbar-scrolled {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+            background: rgba(255, 255, 255, 0.92);
+        }
+        .dark .navbar {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+        .dark .navbar-scrolled {
+            background: rgba(15, 23, 42, 0.95);
+        }
+        .mobile-menu {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .dark .mobile-menu {
+            background: rgba(15, 23, 42, 0.98);
+        }
+
+        .announcement-bar {
+            position: sticky;
+            top: 80px;
+            z-index: 900;
+            background: linear-gradient(90deg, #2563eb 0%, #f97316 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+        }
+        .announcement-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .pamphlet-card {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.96), rgba(249, 115, 22, 0.92));
+            border-radius: 28px;
+            color: white;
+            padding: 28px;
+            box-shadow: 0 18px 50px rgba(37, 99, 235, 0.2);
+        }
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%) translateY(22px);
+            opacity: 0;
+            pointer-events: none;
+            background: rgba(15, 23, 42, 0.95);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 999px;
+            box-shadow: 0 12px 32px rgba(15, 23, 42, 0.25);
+            transition: all 0.3s ease;
+            z-index: 10000;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+        }
+        .footer a {
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: #fff;
+        }
+
+        /* ===== FORM ===== */
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fff;
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+        }
+        .dark .form-input {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+        .dark .form-label {
+            color: #cbd5e1;
+        }
+
+        /* ===== SCROLL PROGRESS ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #2563eb, #f97316, #eab308);
+            z-index: 9999;
+            transition: width 0.1s;
+            border-radius: 0 2px 2px 0;
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: #fff;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .back-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.45);
+        }
+
+        /* ===== CHAT BUBBLE ===== */
+        .chat-bubble {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 998;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .chat-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+        }
+        .chat-btn:hover {
+            transform: scale(1.05);
+        }
+        .chat-btn-whatsapp {
+            background: #25d366;
+            color: #fff;
+        }
+        .chat-btn-chat {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: #fff;
+        }
+
+        /* ===== SECTION TITLES ===== */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            max-width: 600px;
+            line-height: 1.7;
+        }
+        .dark .section-subtitle {
+            color: #94a3b8;
+        }
+
+        /* ===== VIDEO MODAL ===== */
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+        }
+        .video-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .video-modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            background: #000;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+            transform: scale(0.95);
+            transition: transform 0.4s ease;
+        }
+        .video-modal.active .video-modal-content {
+            transform: scale(1);
+        }
+        .video-modal-content iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            display: block;
+            border: none;
+        }
+        .video-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+        .video-modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        /* ===== GALLERY IMAGE PLACEHOLDER ===== */
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #94a3b8;
+        }
+        .dark .gallery-img {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            color: #64748b;
+        }
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+        .gallery-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            cursor: zoom-in;
+        }
+        .gallery-img .placeholder-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.5rem;
+            color: #94a3b8;
+        }
+        .gallery-img .placeholder-icon span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            opacity: 0.6;
+        }
+
+        /* ===== IMAGE LIGHTBOX ===== */
+        .image-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 8, 23, 0.86);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .image-lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .image-lightbox-content {
+            position: relative;
+            max-width: min(95vw, 1100px);
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+            background: #fff;
+        }
+        .image-lightbox-close,
+        .image-lightbox-nav {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(15, 23, 42, 0.75);
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-lightbox-close {
+            top: 12px;
+            right: 12px;
+        }
+        .image-lightbox-nav.prev {
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .image-lightbox-nav.next {
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .image-lightbox-close:hover,
+        .image-lightbox-nav:hover {
+            background: rgba(30, 41, 59, 0.95);
+            transform: translateY(-50%) scale(1.05);
+        }
+        .image-lightbox-close:hover {
+            transform: rotate(90deg);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            .stat-number {
+                font-size: 2.2rem;
+            }
+            .hero-gradient {
+                padding-top: 80px;
+            }
+            .btn-primary,
+            .btn-secondary,
+            .btn-orange {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+            .glass-card {
+                padding: 20px;
+            }
+            .video-modal-content {
+                border-radius: 16px;
+            }
+        }
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SCROLL PROGRESS ===== -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- ===== VIDEO MODAL ===== -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-content">
+            <button class="video-modal-close" id="videoModalClose">✕</button>
+            <video id="videoFrame" controls playsinline preload="metadata" poster="" style="width:100%;height:auto;background:#000;">
+                <source src="Animated_Abacus_Level_1(1080p).mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- ===== IMAGE LIGHTBOX ===== -->
+    <div class="image-lightbox" id="imageLightbox">
+        <div class="image-lightbox-content">
+            <button class="image-lightbox-close" id="imageLightboxClose" aria-label="Close image">✕</button>
+            <button class="image-lightbox-nav prev" id="imageLightboxPrev" aria-label="Previous image">‹</button>
+            <img id="lightboxImage" src="" alt="Enlarged gallery image" />
+            <button class="image-lightbox-nav next" id="imageLightboxNext" aria-label="Next image">›</button>
+        </div>
+    </div>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white font-bold text-lg">B</div>
+                    <div>
+                        <span class="text-xl font-extrabold text-[#1a1a2e] dark:text-white">BrainSpark</span>
+                        <span class="text-sm font-semibold text-[#f97316] block -mt-1">Abacus Academy</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#home" class="text-sm font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Home</a>
+                    <a href="#about" class="text-sm font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">About</a>
+                    <a href="#courses" class="text-sm font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Courses</a>
+                    <a href="#gallery" class="text-sm font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Gallery</a>
+                    <a href="#testimonials" class="text-sm font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Testimonials</a>
+                    <a href="#blog" class="text-sm font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Blog</a>
+                    <a href="#contact" class="text-sm font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Contact</a>
+                </div>
+
+                <!-- Desktop CTA -->
+                <div class="hidden lg:flex items-center gap-4">
+                    <button class="btn-orange px-6 py-3 text-sm book-demo-btn">Book Demo</button>
+                    <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger -->
+                <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="lg:hidden mobile-menu hidden absolute top-20 left-0 right-0 border-b border-gray-200 dark:border-gray-800 shadow-lg">
+            <div class="px-4 py-6 space-y-4">
+                <a href="#home" class="block text-base font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Home</a>
+                <a href="#about" class="block text-base font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">About</a>
+                <a href="#courses" class="block text-base font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Courses</a>
+                <a href="#gallery" class="block text-base font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Gallery</a>
+                <a href="#testimonials" class="block text-base font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Testimonials</a>
+                <a href="#blog" class="block text-base font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Blog</a>
+                <a href="#contact" class="block text-base font-medium text-[#1a1a2e] dark:text-white hover:text-[#2563eb] transition">Contact</a>
+                <hr class="border-gray-200 dark:border-gray-800" />
+                <button class="btn-orange w-full justify-center text-sm book-demo-btn">Book Free Demo</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="announcement-bar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-center gap-2 text-sm font-medium text-center">
+            <span class="announcement-pill">Admission Open</span>
+            <span>Admissions are now open for the new session — limited seats available for early enrollments.</span>
+            <a href="#admission" class="font-semibold underline underline-offset-4 hover:text-blue-100 transition">Apply Now</a>
+        </div>
+    </div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section id="home" class="hero-gradient min-h-screen pt-28 pb-20 px-4 relative overflow-hidden">
+        <!-- Floating Numbers -->
+        <div class="absolute inset-0 pointer-events-none overflow-hidden">
+            <span class="number-float absolute text-7xl font-bold text-blue-500/10 top-10 left-[10%]">7</span>
+            <span class="number-float absolute text-7xl font-bold text-orange-500/10 top-[30%] right-[15%]" style="animation-delay:2s;">5</span>
+            <span class="number-float absolute text-6xl font-bold text-yellow-500/10 bottom-[20%] left-[20%]" style="animation-delay:4s;">3</span>
+            <span class="number-float absolute text-8xl font-bold text-purple-500/10 top-[50%] left-[5%]" style="animation-delay:1s;">8</span>
+            <span class="number-float absolute text-7xl font-bold text-blue-500/10 bottom-[10%] right-[10%]" style="animation-delay:3s;">6</span>
+            <span class="number-float absolute text-6xl font-bold text-orange-500/10 top-[15%] left-[50%]" style="animation-delay:5s;">2</span>
+            <span class="number-float absolute text-7xl font-bold text-yellow-500/10 bottom-[40%] right-[30%]" style="animation-delay:2.5s;">9</span>
+            <span class="number-float absolute text-6xl font-bold text-purple-500/10 top-[70%] left-[40%]" style="animation-delay:3.5s;">4</span>
+            <span class="number-float absolute text-5xl font-bold text-blue-500/10 top-[5%] right-[40%]" style="animation-delay:4.5s;">1</span>
+            <span class="number-float absolute text-6xl font-bold text-orange-500/10 bottom-[60%] left-[65%]" style="animation-delay:1.5s;">0</span>
+        </div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left -->
+                <div class="space-y-8">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 px-4 py-2 rounded-full text-sm font-medium text-blue-600 dark:text-blue-400">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                        🚀 Empowering Young Minds Since 2020
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.1] tracking-tight">
+                        Unlock Your Child's
+                        <span class="gradient-text">Brain Power</span>
+                        with Abacus Learning
+                    </h1>
+                    <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-lg leading-relaxed">
+                        Give your child the gift of mental maths, concentration, and confidence with our internationally certified abacus training program.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <!-- ===== BOOK DEMO BUTTON - scrolls to admission ===== -->
+                        <button class="btn-primary book-demo-btn">🎓 Book Free Demo Class</button>
+                        <!-- ===== WATCH VIDEO BUTTON - opens video modal ===== -->
+                        <button class="btn-secondary bg-white/80 text-[#1a1a2e] dark:bg-gray-800/80 dark:text-white border-gray-200 dark:border-gray-700" id="watchVideoBtn">▶ Watch Video</button>
+                    </div>
+                    <div class="flex flex-wrap gap-3 pt-2 reveal">
+                        <span class="hero-badge">✅ Live interactive classes</span>
+                        <span class="hero-badge">⭐ 4.9/5 parent rating</span>
+                        <span class="hero-badge">🧠 Certified abacus program</span>
+                    </div>
+                    <!-- Stats -->
+                    <div class="stats-row pt-6">
+                        <div class="text-center">
+                            <div class="stat-number" id="statStudents">0</div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Happy Students</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="stat-number" id="statCenters">0</div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Learning Centers</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="stat-number" id="statAwards">0</div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Awards Won</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="stat-number" id="statYears">0</div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Years of Excellence</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right - Abacus Illustration -->
+                <div class="relative flex justify-center items-center">
+                    <div class="relative w-full max-w-md aspect-square">
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-blue-100/40 via-orange-100/30 to-yellow-100/40 dark:from-blue-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 animate-pulse"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="relative w-64 h-64 sm:w-80 sm:h-80">
+                                <div class="absolute inset-0 border-4 border-blue-200 dark:border-blue-800 rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm shadow-2xl">
+                                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[70%] flex flex-col justify-between">
+                                        <div class="w-full h-0.5 bg-blue-300 dark:bg-blue-700 relative">
+                                            <span class="absolute -top-3 -left-2 text-xs font-bold text-blue-400">1</span>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-blue-500 rounded-sm left-[15%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-orange-500 rounded-sm left-[35%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-yellow-500 rounded-sm left-[55%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-green-500 rounded-sm left-[75%] shadow-md"></div>
+                                        </div>
+                                        <div class="w-full h-0.5 bg-blue-300 dark:bg-blue-700 relative">
+                                            <span class="absolute -top-3 -left-2 text-xs font-bold text-blue-400">2</span>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-purple-500 rounded-sm left-[10%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-pink-500 rounded-sm left-[30%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-blue-500 rounded-sm left-[50%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-orange-500 rounded-sm left-[70%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-yellow-500 rounded-sm left-[88%] shadow-md"></div>
+                                        </div>
+                                        <div class="w-full h-0.5 bg-blue-300 dark:bg-blue-700 relative">
+                                            <span class="absolute -top-3 -left-2 text-xs font-bold text-blue-400">3</span>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-red-500 rounded-sm left-[20%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-teal-500 rounded-sm left-[45%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-indigo-500 rounded-sm left-[70%] shadow-md"></div>
+                                        </div>
+                                        <div class="w-full h-0.5 bg-blue-300 dark:bg-blue-700 relative">
+                                            <span class="absolute -top-3 -left-2 text-xs font-bold text-blue-400">4</span>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-amber-500 rounded-sm left-[5%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-cyan-500 rounded-sm left-[25%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-blue-500 rounded-sm left-[45%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-orange-500 rounded-sm left-[65%] shadow-md"></div>
+                                            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-yellow-500 rounded-sm left-[85%] shadow-md"></div>
+                                        </div>
+                                    </div>
+                                    <div class="absolute top-0 left-0 w-4 h-full bg-blue-200 dark:bg-blue-800 rounded-l-2xl"></div>
+                                    <div class="absolute top-0 right-0 w-4 h-full bg-blue-200 dark:bg-blue-800 rounded-r-2xl"></div>
+                                    <div class="absolute top-0 left-0 w-full h-4 bg-blue-200 dark:bg-blue-800 rounded-t-2xl"></div>
+                                    <div class="absolute bottom-0 left-0 w-full h-4 bg-blue-200 dark:bg-blue-800 rounded-b-2xl"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -top-4 -right-4 glass-card px-4 py-2 text-sm font-bold text-blue-600 dark:text-blue-400 animate-bounce">+45% Brain Dev</div>
+                        <div class="absolute -bottom-2 -left-4 glass-card px-4 py-2 text-sm font-bold text-orange-600 dark:text-orange-400 float-slow">⭐ 4.9 Rating</div>
+                        <div class="absolute top-1/2 -left-8 glass-card px-3 py-1 text-xs font-bold text-green-600 dark:text-green-400">🏆 Certified</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-8 px-4 bg-slate-50 dark:bg-[#0a0f1f]">
+        <div class="max-w-7xl mx-auto">
+            <div class="pamphlet-card flex flex-col lg:flex-row items-center justify-between gap-6">
+                <div class="max-w-2xl">
+                    <span class="announcement-pill mb-4">New Pamphlet</span>
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-3">Explore our admission pamphlet and discover every program in one place</h3>
+                    <p class="text-sm sm:text-base text-blue-50/90 leading-relaxed">Download or view the latest brochure with learning benefits, batch timings, and admission details for your child.</p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <a href="pamphlet.html" target="_blank" rel="noopener" class="btn-primary justify-center">📘 View Pamphlet</a>
+                    <a href="#admission" class="btn-secondary justify-center">🎓 Enroll Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section id="about" class="py-24 px-4 bg-white dark:bg-[#0f172a]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-semibold tracking-wide uppercase mb-3">About Us</span>
+                <h2 class="section-title">Shaping Young Minds for a <span class="gradient-text">Brighter Future</span></h2>
+                <p class="section-subtitle mx-auto mt-4">BrainSpark Abacus Academy is dedicated to nurturing young minds through the ancient art of abacus learning, combined with modern teaching methodologies.</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="glass-card p-8 space-y-4">
+                        <h3 class="text-2xl font-bold text-[#1a1a2e] dark:text-white">Our Story</h3>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Founded in 2020, BrainSpark Abacus Academy began with a simple vision: to make mental mathematics fun, engaging, and accessible to every child. What started as a single classroom has now grown into a network of centers across the city, transforming the lives of thousands of young learners.</p>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Our unique approach combines traditional abacus techniques with gamified learning, ensuring that every child not only masters mental math but also develops critical thinking, concentration, and confidence.</p>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="glass-card p-6 text-center">
+                            <div class="text-3xl font-extrabold text-blue-600 dark:text-blue-400">🎯</div>
+                            <h4 class="font-bold text-[#1a1a2e] dark:text-white mt-2">Mission</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Empower every child with lifelong mental math skills and cognitive excellence.</p>
+                        </div>
+                        <div class="glass-card p-6 text-center">
+                            <div class="text-3xl font-extrabold text-orange-600 dark:text-orange-400">🌟</div>
+                            <h4 class="font-bold text-[#1a1a2e] dark:text-white mt-2">Vision</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">To be the world's most trusted platform for abacus and cognitive development.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="glass-card p-6 relative z-10">
+                        <div class="aspect-[4/3] rounded-xl bg-gradient-to-br from-blue-100 to-orange-100 dark:from-blue-900/30 dark:to-orange-900/30 flex items-center justify-center">
+                            <div class="text-center p-8">
+                                <div class="text-6xl mb-4">🧠</div>
+                                <h3 class="text-2xl font-bold text-[#1a1a2e] dark:text-white">Founder's Message</h3>
+                                <p class="text-gray-600 dark:text-gray-300 mt-3 italic max-w-sm mx-auto">"Every child has a genius within. Our mission is to unlock that potential through the power of abacus learning."</p>
+                                <div class="mt-4">
+                                    <p class="font-bold text-[#1a1a2e] dark:text-white">Mrs. Shraddha Chougule</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Founder & Director</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -top-4 -right-4 w-24 h-24 rounded-full bg-blue-200/30 dark:bg-blue-500/10 blur-2xl"></div>
+                    <div class="absolute -bottom-4 -left-4 w-32 h-32 rounded-full bg-orange-200/30 dark:bg-orange-500/10 blur-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="py-24 px-4 bg-gradient-to-b from-white to-slate-50 dark:from-[#0f172a] dark:to-[#111827]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm font-semibold tracking-wide uppercase mb-3">How It Works</span>
+                <h2 class="section-title">A Simple Path to <span class="gradient-text">Confident Learning</span></h2>
+                <p class="section-subtitle mx-auto mt-4">We make every step of the journey engaging, structured, and easy for both children and parents to follow.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="step-card reveal">
+                    <div class="step-index">1</div>
+                    <h3 class="text-xl font-bold text-[#1a1a2e] dark:text-white mb-2">Assess & Match</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">We begin with a friendly evaluation to place each child in the perfect learning level.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-index">2</div>
+                    <h3 class="text-xl font-bold text-[#1a1a2e] dark:text-white mb-2">Learn Through Play</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Lessons blend visuals, games, and mental math practice to keep children motivated.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-index">3</div>
+                    <h3 class="text-xl font-bold text-[#1a1a2e] dark:text-white mb-2">Track Real Growth</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Parents receive updates and progress insights as skills develop week by week.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WHY CHOOSE US ===== -->
+    <section class="py-24 px-4 bg-gray-50 dark:bg-[#0a0f1f]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-sm font-semibold tracking-wide uppercase mb-3">Why Choose Us</span>
+                <h2 class="section-title">Why Parents Trust <span class="gradient-text">BrainSpark</span></h2>
+                <p class="section-subtitle mx-auto mt-4">We combine the best of traditional abacus techniques with modern educational technology to deliver outstanding results.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="feature-card"><div class="feature-icon text-blue-600">👨‍🏫</div><h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">Certified Trainers</h4><p class="text-sm text-gray-500 dark:text-gray-400">Highly qualified and experienced abacus instructors.</p></div>
+                <div class="feature-card"><div class="feature-icon text-orange-600">🌍</div><h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">International Curriculum</h4><p class="text-sm text-gray-500 dark:text-gray-400">Globally recognized abacus and mental math syllabus.</p></div>
+                <div class="feature-card"><div class="feature-icon text-yellow-600">👥</div><h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">Small Batch Size</h4><p class="text-sm text-gray-500 dark:text-gray-400">Personalized attention with limited students per batch.</p></div>
+                <div class="feature-card"><div class="feature-icon text-green-600">🎮</div><h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">Fun Learning</h4><p class="text-sm text-gray-500 dark:text-gray-400">Gamified lessons that make learning enjoyable.</p></div>
+                <div class="feature-card"><div class="feature-icon text-purple-600">🧠</div><h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">Brain Development</h4><p class="text-sm text-gray-500 dark:text-gray-400">Enhances cognitive abilities and memory retention.</p></div>
+                <div class="feature-card"><div class="feature-icon text-red-600">💪</div><h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">Confidence Building</h4><p class="text-sm text-gray-500 dark:text-gray-400">Boosts self-esteem and public speaking skills.</p></div>
+                <div class="feature-card"><div class="feature-icon text-indigo-600">🧮</div><h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">Mental Maths</h4><p class="text-sm text-gray-500 dark:text-gray-400">Master quick calculations without a calculator.</p></div>
+                <div class="feature-card"><div class="feature-icon text-pink-600">🎯</div><h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">Logical Thinking</h4><p class="text-sm text-gray-500 dark:text-gray-400">Develops analytical and problem-solving skills.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== COURSES ===== -->
+    <section id="courses" class="py-24 px-4 bg-white dark:bg-[#0f172a]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-yellow-50 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 text-sm font-semibold tracking-wide uppercase mb-3">Our Courses</span>
+                <h2 class="section-title">Discover Our <span class="gradient-text">Programs</span></h2>
+                <p class="section-subtitle mx-auto mt-4">From tiny tots to advanced learners, we have a program designed for every age and skill level.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Tiny Tots -->
+                <div class="course-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div><span class="text-3xl">🌈</span><h3 class="text-xl font-bold text-[#1a1a2e] dark:text-white mt-2">Tiny Tots</h3></div>
+                        <span class="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold">Beginner</span>
+                    </div>
+                    <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                        <p><span class="font-medium">Age:</span> 4-6 years</p>
+                        <p><span class="font-medium">Duration:</span> 2 Years</p>
+                        <p><span class="font-medium">Levels:</span> 10</p>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 leading-relaxed">A playful introduction to numbers and basic arithmetic through interactive abacus activities.</p>
+                    <button class="mt-4 w-full py-3 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/50 transition course-learn-btn">Learn More →</button>
+                </div>
+                <!-- Junior Abacus -->
+                <div class="course-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div><span class="text-3xl">🧮</span><h3 class="text-xl font-bold text-[#1a1a2e] dark:text-white mt-2">Junior Abacus</h3></div>
+                        <span class="px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-xs font-semibold">Intermediate</span>
+                    </div>
+                    <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                        <p><span class="font-medium">Age:</span> 6-9 years</p>
+                        <p><span class="font-medium">Duration:</span> 2 Years</p>
+                        <p><span class="font-medium">Levels:</span> 10</p>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 leading-relaxed">Build speed and accuracy in mental calculations with advanced abacus techniques.</p>
+                    <button class="mt-4 w-full py-3 rounded-xl bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 font-semibold hover:bg-orange-100 dark:hover:bg-orange-900/50 transition course-learn-btn">Learn More →</button>
+                </div>
+                <!-- Senior Abacus -->
+                <div class="course-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div><span class="text-3xl">🏆</span><h3 class="text-xl font-bold text-[#1a1a2e] dark:text-white mt-2">Senior Abacus</h3></div>
+                        <span class="px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-semibold">Advanced</span>
+                    </div>
+                    <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                        <p><span class="font-medium">Age:</span> 9-14 years</p>
+                        <p><span class="font-medium">Duration:</span> 2 Years</p>
+                        <p><span class="font-medium">Levels:</span> 10</p>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 leading-relaxed">Master complex mental calculations and prepare for competitive exams with confidence.</p>
+                    <button class="mt-4 w-full py-3 rounded-xl bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 font-semibold hover:bg-purple-100 dark:hover:bg-purple-900/50 transition course-learn-btn">Learn More →</button>
+                </div>
+                <!-- Vedic Maths -->
+                <div class="course-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div><span class="text-3xl">🔢</span><h3 class="text-xl font-bold text-[#1a1a2e] dark:text-white mt-2">Vedic Maths</h3></div>
+                        <span class="px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-xs font-semibold">Advanced</span>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 leading-relaxed">Ancient Indian mathematical techniques for lightning-fast calculations.</p>
+                    <button class="mt-4 w-full py-3 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 font-semibold hover:bg-green-100 dark:hover:bg-green-900/50 transition course-learn-btn">Learn More →</button>
+                </div>
+                <!-- Rubik Cube -->
+                <div class="course-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div><span class="text-3xl">🧩</span><h3 class="text-xl font-bold text-[#1a1a2e] dark:text-white mt-2">Rubik Cube</h3></div>
+                        <span class="px-3 py-1 rounded-full bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-semibold">Intermediate</span>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 leading-relaxed">Develop spatial intelligence and problem-solving skills through cubing.</p>
+                    <button class="mt-4 w-full py-3 rounded-xl bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-semibold hover:bg-red-100 dark:hover:bg-red-900/50 transition course-learn-btn">Learn More →</button>
+                </div>
+                <!-- Handwriting -->
+                <div class="course-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div><span class="text-3xl">✍️</span><h3 class="text-xl font-bold text-[#1a1a2e] dark:text-white mt-2">Handwriting</h3></div>
+                        <span class="px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 text-xs font-semibold">Beginner</span>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 leading-relaxed">Transform handwriting with our proven techniques for legibility and speed.</p>
+                    <button class="mt-4 w-full py-3 rounded-xl bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 font-semibold hover:bg-teal-100 dark:hover:bg-teal-900/50 transition course-learn-btn">Learn More →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GALLERY SECTION - WITH IMAGE PLACEHOLDERS ===== -->
+    <section id="gallery" class="py-24 px-4 bg-gray-50 dark:bg-[#0a0f1f]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-sm font-semibold tracking-wide uppercase mb-3">Gallery</span>
+                <h2 class="section-title">Moments at <span class="gradient-text">BrainSpark</span></h2>
+                <p class="section-subtitle mx-auto mt-4">A glimpse into the vibrant learning environment and joyful moments at our academy.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 hover:scale-105 transition duration-300 cursor-pointer relative group">
+                    <div class="gallery-img w-full h-full flex items-center justify-center">
+                        <img src="1.jpeg" alt="BrainSpark Activity 1" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-orange-100 to-yellow-100 dark:from-orange-900/20 dark:to-yellow-900/20 hover:scale-105 transition duration-300 cursor-pointer relative group">
+                    <div class="gallery-img w-full h-full flex items-center justify-center">
+                        <img src="2.jpeg" alt="BrainSpark Activity 2" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-green-100 to-teal-100 dark:from-green-900/20 dark:to-teal-900/20 hover:scale-105 transition duration-300 cursor-pointer relative group">
+                    <div class="gallery-img w-full h-full flex items-center justify-center">
+                        <img src="3.jpeg" alt="BrainSpark Activity 3" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/20 dark:to-rose-900/20 hover:scale-105 transition duration-300 cursor-pointer relative group">
+                    <div class="gallery-img w-full h-full flex items-center justify-center">
+                        <img src="4.jpeg" alt="BrainSpark Activity 4" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/20 dark:to-blue-900/20 hover:scale-105 transition duration-300 cursor-pointer relative group">
+                    <div class="gallery-img w-full h-full flex items-center justify-center">
+                        <img src="https://cdn.cdnparenting.com/articles/2018/02/309236516-H-1024x700.jpg" alt="BrainSpark Activity 5" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/20 dark:to-amber-900/20 hover:scale-105 transition duration-300 cursor-pointer relative group">
+                    <div class="gallery-img w-full h-full flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80" alt="BrainSpark Activity 6" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-cyan-100 to-sky-100 dark:from-cyan-900/20 dark:to-sky-900/20 hover:scale-105 transition duration-300 cursor-pointer relative group">
+                    <div class="gallery-img w-full h-full flex items-center justify-center">
+                        <img src="https://static.wixstatic.com/media/ffbe7d_5d23b67274764f16900b8e7f44aa999c~mv2.jpg/v1/fill/w_648,h_432,al_c,lg_1,q_80/ffbe7d_5d23b67274764f16900b8e7f44aa999c~mv2.jpg" alt="BrainSpark Activity 7" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-violet-100 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20 hover:scale-105 transition duration-300 cursor-pointer relative group">
+                    <div class="gallery-img w-full h-full flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=900&q=80" alt="BrainSpark Activity 8" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section id="testimonials" class="py-24 px-4 bg-white dark:bg-[#0f172a]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm font-semibold tracking-wide uppercase mb-3">Testimonials</span>
+                <h2 class="section-title">What Parents Say <span class="gradient-text">About Us</span></h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="testimonial-card">
+                    <div class="flex items-center gap-1 text-yellow-400 text-lg mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">"My daughter's math skills have improved dramatically since joining BrainSpark. She's more confident and actually enjoys solving math problems now!"</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center text-white font-bold text-sm">RK</div>
+                        <div><p class="font-bold text-[#1a1a2e] dark:text-white text-sm">Rahul Kumar</p><p class="text-xs text-gray-400">Parent of Aanya, Age 8</p></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="flex items-center gap-1 text-yellow-400 text-lg mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">"The teachers are amazing and the curriculum is well-structured. My son's concentration and memory have improved significantly."</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-red-400 flex items-center justify-center text-white font-bold text-sm">SP</div>
+                        <div><p class="font-bold text-[#1a1a2e] dark:text-white text-sm">Sneha Patel</p><p class="text-xs text-gray-400">Parent of Aarav, Age 7</p></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="flex items-center gap-1 text-yellow-400 text-lg mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">"BrainSpark has been a game-changer for my child. The abacus training has not only improved math skills but also boosted overall academic performance."</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 flex items-center justify-center text-white font-bold text-sm">AM</div>
+                        <div><p class="font-bold text-[#1a1a2e] dark:text-white text-sm">Anita Mehta</p><p class="text-xs text-gray-400">Parent of Rohan, Age 10</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BLOG ===== -->
+    <section id="blog" class="py-24 px-4 bg-gray-50 dark:bg-[#0a0f1f]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-sm font-semibold tracking-wide uppercase mb-3">Blog</span>
+                <h2 class="section-title">Latest from <span class="gradient-text">Our Blog</span></h2>
+                <p class="section-subtitle mx-auto mt-4">Insights, tips, and stories about abacus learning, brain development, and parenting.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-6">
+                    <div class="aspect-video rounded-xl bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/20 dark:to-cyan-900/20 flex items-center justify-center text-4xl mb-4">🧠</div>
+                    <div class="flex items-center gap-2 text-xs text-gray-400 mb-2"><span>Mental Math</span><span>•</span><span>5 min read</span></div>
+                    <h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">10 Benefits of Abacus Learning for Kids</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Discover how abacus training can transform your child's cognitive abilities and academic performance.</p>
+                    <button class="mt-4 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline">Read More →</button>
+                </div>
+                <div class="glass-card p-6">
+                    <div class="aspect-video rounded-xl bg-gradient-to-br from-orange-100 to-yellow-100 dark:from-orange-900/20 dark:to-yellow-900/20 flex items-center justify-center text-4xl mb-4">👨‍👩‍👧</div>
+                    <div class="flex items-center gap-2 text-xs text-gray-400 mb-2"><span>Parenting</span><span>•</span><span>7 min read</span></div>
+                    <h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">How to Make Math Fun for Your Child</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Practical tips and activities to turn math from a chore into an exciting adventure for your little one.</p>
+                    <button class="mt-4 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline">Read More →</button>
+                </div>
+                <div class="glass-card p-6">
+                    <div class="aspect-video rounded-xl bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 flex items-center justify-center text-4xl mb-4">🏆</div>
+                    <div class="flex items-center gap-2 text-xs text-gray-400 mb-2"><span>Education</span><span>•</span><span>4 min read</span></div>
+                    <h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">BrainSpark Annual Day Celebration 2025</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">A look back at our spectacular annual day event featuring student performances and awards.</p>
+                    <button class="mt-4 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline">Read More →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="py-24 px-4 bg-white dark:bg-[#0f172a]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-semibold tracking-wide uppercase mb-3">Contact</span>
+                <h2 class="section-title">Get in <span class="gradient-text">Touch</span></h2>
+                <p class="section-subtitle mx-auto mt-4">Have questions? We'd love to hear from you. Reach out to us and we'll get back to you within 24 hours.</p>
+            </div>
+            <div class="grid lg:grid-cols-5 gap-8">
+                <div class="lg:col-span-3">
+                    <div class="glass-card p-8">
+                        <h3 class="text-2xl font-bold text-[#1a1a2e] dark:text-white mb-6">Send a Message</h3>
+                        <form id="contactForm" class="space-y-5">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div><label class="form-label">Your Name *</label><input type="text" name="name" class="form-input" placeholder="Enter your name" required /></div>
+                                <div><label class="form-label">Email *</label><input type="email" name="email" class="form-input" placeholder="Enter your email" required /></div>
+                            </div>
+                            <div><label class="form-label">Phone</label><input type="tel" name="phone" class="form-input" placeholder="Enter your phone number" /></div>
+                            <div><label class="form-label">Subject</label><input type="text" name="subject" class="form-input" placeholder="Subject of your message" /></div>
+                            <div><label class="form-label">Message *</label><textarea name="message" class="form-input" rows="5" placeholder="Write your message here..." required></textarea></div>
+                            <button type="submit" class="btn-primary w-full justify-center">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="glass-card p-6">
+                        <h4 class="font-bold text-[#1a1a2e] dark:text-white mb-4">📍 Visit Us</h4>
+                        <div class="aspect-video rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-800 mb-4">
+                            <iframe
+                                src="https://www.google.com/maps?q=BrainSpark%20Abacus%20Academy&output=embed"
+                                width="100%"
+                                height="100%"
+                                style="border:0;"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                allowfullscreen
+                                title="BrainSpark Abacus Academy location"
+                            ></iframe>
+                        </div>
+                        <a href="https://maps.app.goo.gl/568wTRenpMpq9wCc7" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline mb-4">
+                            Open in Google Maps ↗
+                        </a>
+                        <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                            <p>🏢 Upkar NagarSwapnanagari, Jaysingpur, Maharashtra 416102,India</p>
+                            <p>📞 +91 7422991111</p>
+                            <p>📧 shreddhachougule@gmail.com</p>
+                            <p>🕐 Mon-Sat: 9 AM - 7 PM</p>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6">
+                        <h4 class="font-bold text-[#1a1a2e] dark:text-white mb-2">💬 Connect with Us</h4>
+                        <div class="flex gap-3">
+                            <button id="whatsappBtn" class="flex-1 py-3 rounded-xl bg-green-500 text-white font-semibold text-sm hover:bg-green-600 transition">WhatsApp</button>
+                            <button id="liveChatBtn" class="flex-1 py-3 rounded-xl bg-blue-500 text-white font-semibold text-sm hover:bg-blue-600 transition">Live Chat</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ADMISSION SECTION (Book Demo scrolls here) ===== -->
+    <section id="admission" class="py-24 px-4 bg-gray-50 dark:bg-[#0a0f1f]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-semibold tracking-wide uppercase mb-3">Admission</span>
+                <h2 class="section-title">Enroll Your Child <span class="gradient-text">Today</span></h2>
+                <p class="section-subtitle mx-auto mt-4">Join the BrainSpark family and give your child the gift of lifelong learning.</p>
+            </div>
+            <div class="glass-card p-8 max-w-3xl mx-auto">
+                <form id="admissionForm" class="space-y-5">
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div><label class="form-label">Student Name *</label><input type="text" name="studentName" class="form-input" placeholder="Enter student name" required /></div>
+                        <div><label class="form-label">Parent Name *</label><input type="text" name="parentName" class="form-input" placeholder="Enter parent name" required /></div>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div><label class="form-label">Email *</label><input type="email" name="email" class="form-input" placeholder="Enter email address" required /></div>
+                        <div><label class="form-label">Phone *</label><input type="tel" name="phone" class="form-input" placeholder="Enter phone number" required /></div>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div><label class="form-label">Age *</label><input type="number" name="age" class="form-input" placeholder="Enter age" required /></div>
+                        <div><label class="form-label">School</label><input type="text" name="school" class="form-input" placeholder="Enter school name" /></div>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div><label class="form-label">City *</label><input type="text" name="city" class="form-input" placeholder="Enter city" required /></div>
+                        <div><label class="form-label">Course *</label>
+                            <select name="course" class="form-input" required>
+                                <option value="">Select a course</option>
+                                <option>Tiny Tots (4-6 years)</option><option>Junior Abacus (6-9 years)</option>
+                                <option>Senior Abacus (9-14 years)</option><option>Vedic Maths</option>
+                                <option>Rubik Cube</option><option>Handwriting Improvement</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div><label class="form-label">Preferred Batch</label>
+                        <select name="batch" class="form-input">
+                            <option value="">Select batch</option>
+                            <option>Morning (8-10 AM)</option><option>Afternoon (2-4 PM)</option>
+                            <option>Evening (5-7 PM)</option><option>Weekend (Sat-Sun)</option>
+                        </select>
+                    </div>
+                    <div><label class="form-label">Message</label><textarea name="message" class="form-input" rows="3" placeholder="Any special requirements or questions..."></textarea></div>
+                    <!-- <div><label class="form-label">Upload Birth Certificate</label><input type="file" class="form-input p-2" accept=".pdf,.jpg,.png" /></div> -->
+                    <button type="submit" class="btn-primary w-full justify-center">Submit Admission Form</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-10">
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white font-bold text-lg">B</div>
+                        <div><span class="text-xl font-extrabold text-white">BrainSpark</span><span class="text-sm font-semibold text-[#f97316] block -mt-1">Abacus Academy</span></div>
+                    </div>
+                    <p class="text-sm text-gray-400 max-w-sm leading-relaxed">Empowering young minds through the art of abacus learning. Building a brighter future, one calculation at a time.</p>
+                    <div class="flex gap-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl">📘</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl">📸</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl">📺</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl">💼</a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-bold text-white mb-4">Quick Links</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#home" class="hover:text-white transition">Home</a></li>
+                        <li><a href="#about" class="hover:text-white transition">About</a></li>
+                        <li><a href="#courses" class="hover:text-white transition">Courses</a></li>
+                        <li><a href="#admission" class="hover:text-white transition">Admission</a></li>
+                        <li><a href="#contact" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-white mb-4">Courses</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#courses" class="hover:text-white transition">Tiny Tots</a></li>
+                        <li><a href="#courses" class="hover:text-white transition">Junior Abacus</a></li>
+                        <li><a href="#courses" class="hover:text-white transition">Senior Abacus</a></li>
+                        <li><a href="#courses" class="hover:text-white transition">Vedic Maths</a></li>
+                        <li><a href="#courses" class="hover:text-white transition">Rubik Cube</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-white mb-4">Support</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition">Refund Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">FAQs</a></li>
+                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+                <p>© 2026 BrainSpark Abacus Academy. All rights reserved.</p>
+                <p>Made with ❤️ by Vighnesh Shahapure </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button class="back-to-top" id="backToTop">↑</button>
+    <div id="formToast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- ===== CHAT BUBBLE ===== -->
+    <div class="chat-bubble">
+        <button class="chat-btn chat-btn-whatsapp" id="floatingWhatsApp" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.198.297-.768.967-.94 1.166-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.149-.173.199-.297.299-.496.099-.198.05-.372-.025-.521-.075-.149-.67-1.612-.92-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.521.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.49 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M20.52 3.449C18.24 1.17 15.24.001 12 .001 5.66.001 0 5.661 0 12c0 2.107.55 4.15 1.588 5.94L0 24l6.2-1.58c1.74.95 3.71 1.45 5.72 1.45h.01c6.34 0 12-5.66 12-12 0-3.24-1.17-6.24-3.45-8.52zM12 21.95h-.01c-1.8 0-3.56-.48-5.09-1.38l-.36-.21-3.68.94.98-3.58-.24-.37A9.95 9.95 0 0 1 2 12c0-5.52 4.48-10 10-10 2.67 0 5.18 1.04 7.07 2.93A9.94 9.94 0 0 1 22 12c0 5.52-4.48 9.95-10 9.95z"/>
+            </svg>
+        </button>
+        <button class="chat-btn chat-btn-chat" id="floatingLiveChat" title="Live Chat" aria-label="Live Chat">💭</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================================ -->
+    <script>
+        // ========================
+        // SCROLL PROGRESS
+        // ========================
+        const scrollProgress = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = progress + '%';
+        });
+
+        // ========================
+        // BACK TO TOP
+        // ========================
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ========================
+        // NAVBAR SCROLL EFFECT
+        // ========================
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // ========================
+        // MOBILE MENU TOGGLE
+        // ========================
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // ========================
+        // DARK MODE TOGGLE
+        // ========================
+        const themeToggle = document.getElementById('themeToggle');
+        let isDark = localStorage.getItem('theme') === 'dark';
+
+        function applyTheme(dark) {
+            if (dark) {
+                document.body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+            isDark = dark;
+        }
+
+        if (localStorage.getItem('theme') === 'dark' ||
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            applyTheme(true);
+        } else {
+            applyTheme(false);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            applyTheme(!isDark);
+        });
+
+        // ========================
+        // SECTION REVEAL ANIMATION
+        // ========================
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ========================
+        // STAT COUNTER ANIMATION
+        // ========================
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start);
+                }
+            }, 16);
+        }
+
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    const targets = {
+                        statStudents: 2500,
+                        statCenters: 15,
+                        statAwards: 28,
+                        statYears: 6
+                    };
+                    animateCounter(entry.target, targets[id] || 0);
+                    statObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        ['statStudents', 'statCenters', 'statAwards', 'statYears'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) statObserver.observe(el);
+        });
+
+        // ========================
+        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // ========================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ========================
+        // FORM SUBMISSIONS
+        // ========================
+        const toast = document.getElementById('formToast');
+        const teacherPhone = '919876543211';
+
+        function getTwilioConfig() {
+            return {
+                accountSid: '',
+                authToken: '',
+                fromNumber: ''
+            };
+        }
+
+        function hasTwilioConfig() {
+            return true;
+        }
+
+        function showToast(message) {
+            if (!toast) return;
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(showToast.timeout);
+            showToast.timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        async function sendSms(phone, messageBody) {
+            if (!phone || !hasTwilioConfig()) return false;
+            const twilioConfig = getTwilioConfig();
+            try {
+                const response = await fetch('http://localhost:3000/api/send-sms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        to: phone,
+                        body: messageBody,
+                        accountSid: twilioConfig.accountSid,
+                        authToken: twilioConfig.authToken,
+                        from: twilioConfig.fromNumber
+                    })
+                });
+                const result = await response.json();
+                if (!response.ok || !result.ok) {
+                    console.error('SMS send failed:', result);
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error('SMS send error:', error);
+                return false;
+            }
+        }
+
+        async function handleLeadSubmission(form, formType) {
+            const data = new FormData(form);
+            const parentName = data.get('parentName') || data.get('name') || 'Parent';
+            const studentName = data.get('studentName') || 'student';
+            const phone = data.get('phone') || '';
+            const email = data.get('email') || 'Not provided';
+            const course = data.get('course') || 'Abacus Program';
+            const message = data.get('message') || 'Interested in learning more.';
+
+            const parentMessage = `Hello ${parentName}, thank you for contacting BrainSpark Abacus Academy. We have received your ${formType === 'admission' ? 'admission request' : 'message'} for ${studentName}. Our team will contact you soon.`;
+            const teacherMessage = `New ${formType === 'admission' ? 'admission inquiry' : 'contact request'} from ${parentName}. Student/Child: ${studentName}. Phone: ${phone}. Email: ${email}. Course: ${course}. Message: ${message}`;
+
+            if (!hasTwilioConfig()) {
+                showToast('⚠️ The SMS gateway is not configured yet.');
+                return;
+            }
+
+            showToast('✅ Thank you! Your request is being processed and the messages are being sent.');
+            let parentSent = true;
+            if (phone) {
+                parentSent = await sendSms(phone, parentMessage);
+            }
+            const teacherSent = await sendSms(teacherPhone, teacherMessage);
+            if (parentSent && teacherSent) {
+                form.reset();
+            }
+        }
+
+        document.getElementById('admissionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLeadSubmission(this, 'admission');
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLeadSubmission(this, 'contact');
+        });
+
+        // ========================
+        // BOOK DEMO - scrolls to admission section
+        // ========================
+        document.querySelectorAll('.book-demo-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const admissionSection = document.getElementById('admission');
+                if (admissionSection) {
+                    admissionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ========================
+        // COURSE "LEARN MORE" - scroll to admission
+        // ========================
+        document.querySelectorAll('.course-learn-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const admissionSection = document.getElementById('admission');
+                if (admissionSection) {
+                    admissionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ========================
+        // WATCH VIDEO - opens video modal
+        // ========================
+        const videoModal = document.getElementById('videoModal');
+        const videoFrame = document.getElementById('videoFrame');
+        const videoModalClose = document.getElementById('videoModalClose');
+
+        function openVideoModal() {
+            videoModal.classList.add('active');
+            if (videoFrame) {
+                videoFrame.currentTime = 0;
+                videoFrame.play().catch(() => {});
+            }
+        }
+
+        function closeVideoModal() {
+            videoModal.classList.remove('active');
+            if (videoFrame) {
+                videoFrame.pause();
+                videoFrame.currentTime = 0;
+            }
+        }
+
+        document.getElementById('watchVideoBtn').addEventListener('click', openVideoModal);
+
+        videoModalClose.addEventListener('click', closeVideoModal);
+
+        // Close modal on backdrop click
+        videoModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+                closeVideoModal();
+            }
+        });
+
+        // ========================
+        // IMAGE LIGHTBOX
+        // ========================
+        const imageLightbox = document.getElementById('imageLightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const imageLightboxClose = document.getElementById('imageLightboxClose');
+        const imageLightboxPrev = document.getElementById('imageLightboxPrev');
+        const imageLightboxNext = document.getElementById('imageLightboxNext');
+        const galleryImages = Array.from(document.querySelectorAll('.gallery-img img'));
+        let currentLightboxIndex = 0;
+
+        function openImageLightbox(index) {
+            if (!galleryImages.length) return;
+            currentLightboxIndex = index >= 0 ? index : 0;
+            if (currentLightboxIndex >= galleryImages.length) currentLightboxIndex = 0;
+            if (currentLightboxIndex < 0) currentLightboxIndex = galleryImages.length - 1;
+            lightboxImage.src = galleryImages[currentLightboxIndex].getAttribute('src');
+            imageLightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageLightbox() {
+            imageLightbox.classList.remove('active');
+            document.body.style.overflow = '';
+            lightboxImage.src = '';
+        }
+
+        function showPrevImage() {
+            openImageLightbox(currentLightboxIndex - 1);
+        }
+
+        function showNextImage() {
+            openImageLightbox(currentLightboxIndex + 1);
+        }
+
+        galleryImages.forEach((img, index) => {
+            const openFromGallery = (e) => {
+                if (e) e.stopPropagation();
+                openImageLightbox(index);
+            };
+
+            img.addEventListener('click', openFromGallery);
+            img.parentElement.addEventListener('click', openFromGallery);
+            img.parentElement.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openFromGallery(e);
+                }
+            });
+            img.parentElement.setAttribute('tabindex', '0');
+            img.parentElement.setAttribute('role', 'button');
+            img.parentElement.setAttribute('aria-label', 'Open gallery image');
+        });
+
+        imageLightboxClose.addEventListener('click', closeImageLightbox);
+        imageLightboxPrev.addEventListener('click', showPrevImage);
+        imageLightboxNext.addEventListener('click', showNextImage);
+
+        imageLightbox.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && imageLightbox.classList.contains('active')) {
+                closeImageLightbox();
+            } else if (e.key === 'ArrowLeft' && imageLightbox.classList.contains('active')) {
+                showPrevImage();
+            } else if (e.key === 'ArrowRight' && imageLightbox.classList.contains('active')) {
+                showNextImage();
+            }
+        });
+
+        // ========================
+        // WHATSAPP CHAT
+        // ========================
+        function openWhatsApp() {
+            const phone = '918378893111'
+            const message = encodeURIComponent('Hi BrainSpark Abacus Academy! I am interested in your programs. Please share more details.');
+            const url = `https://wa.me/${phone}?text=${message}`;
+            window.open(url, '_blank');
+        }
+
+        document.querySelectorAll('#whatsappBtn, #floatingWhatsApp').forEach(btn => {
+            btn.addEventListener('click', openWhatsApp);
+        });
+
+        // ========================
+        // LIVE CHAT - scroll to contact
+        // ========================
+        document.querySelectorAll('#liveChatBtn, #floatingLiveChat').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTimeout(() => {
+                        const messageInput = document.querySelector('#contactForm textarea');
+                        if (messageInput) messageInput.focus();
+                    }, 800);
+                }
+            });
+        });
+
+        console.log('🧠 BrainSpark Abacus Academy — Fully functional with Video Modal & Gallery!');
+        console.log('📹 Replace the video URL in the iframe with your own video link.');
+        console.log('🖼️ Replace gallery image src attributes with your own images.');
+        console.log('📞 WhatsApp number: +91 98765 43210 (replace with your number)');
+    </script>
+
+</body>
+</html>
